@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Numerics;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace backend.Controllers
 {
 	[Route("api/[controller]")]
@@ -20,8 +18,6 @@ namespace backend.Controllers
 			this.context = context;
 		}
 
-
-		// GET: api/<FormularioController>
 		[HttpGet]
 		public ActionResult Get()
 		{
@@ -36,8 +32,6 @@ namespace backend.Controllers
 			}
 		}
 
-
-		// GET api/<FormularioController>/5
 		[HttpGet("{id}", Name = "GetGestor")]
 		public ActionResult Get(int id)
 		{
@@ -54,7 +48,6 @@ namespace backend.Controllers
 			}
 		}
 
-		// POST api/<FormularioController>
 		[HttpPost]
 		public ActionResult Post([FromBody] persona gestor)
 		{
@@ -65,13 +58,11 @@ namespace backend.Controllers
 					return BadRequest("El cuerpo de la solicitud está vacío.");
 				}
 
-				// Establecer valores predeterminados si los campos opcionales son nulos
 				gestor.estado_civil = gestor.estado_civil ?? "No especificado";
 				gestor.estado = gestor.estado ?? "Inactivo";
 				gestor.ip = gestor.ip ?? "192.168.1.1";
 
 				
-				// Asegurar que las fechas estén definidas
 				if (gestor.fecha_creacion == default(DateTime))
 				{
 					gestor.fecha_creacion = DateTime.UtcNow;
@@ -83,7 +74,7 @@ namespace backend.Controllers
 				}
 
 				context.persona.Add(gestor);
-				context.SaveChanges(); // Guardar en la base de datos
+				context.SaveChanges();
 
 				return CreatedAtRoute("GetGestor", new { id = gestor.id }, gestor);
 			}
@@ -93,8 +84,6 @@ namespace backend.Controllers
 			}
 		}
 
-
-		// PUT api/<FormularioController>/5
 		[HttpPut("{id}")]
 		public ActionResult Put(int id, [FromBody] persona gestor)
 		{
@@ -106,7 +95,7 @@ namespace backend.Controllers
 				}
 
 				context.Entry(gestor).State = EntityState.Modified;
-				context.SaveChanges(); // Corregido
+				context.SaveChanges();
 				return CreatedAtRoute("GetGestor", new { id = gestor.id }, gestor);
 			}
 			catch (Exception ex)
@@ -115,7 +104,6 @@ namespace backend.Controllers
 			}
 		}
 
-		// DELETE api/<FormularioController>/5
 		[HttpDelete("{id}")]
 		public ActionResult Delete(int id)
 		{
@@ -125,7 +113,7 @@ namespace backend.Controllers
 				if (gestor != null)
 				{
 					context.persona.Remove(gestor);
-					context.SaveChanges(); // Corregido
+					context.SaveChanges(); 
 					return Ok(id);
 				}
 				else

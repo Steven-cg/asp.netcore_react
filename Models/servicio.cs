@@ -6,7 +6,7 @@ namespace backend.Models
 {
     public class servicio
     {
-        [Key]  // Define la clave primaria
+        [Key] 
         public int id_servicio { get; set; }
 
         public int tipo { get; set; }

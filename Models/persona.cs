@@ -23,7 +23,7 @@ namespace backend.Models
 		[MaxLength(50)]
 		public string? estado_civil { get; set; }
 
-		[Column("estatura(m)")]  // Nombre de la columna con paréntesis
+		[Column("estatura(m)")] 
 		public int estatura { get; set; }
 
 		[MaxLength(50)]

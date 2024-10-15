@@ -17,7 +17,6 @@ namespace backend.Controllers
             this.context = context;
         }
 
-        // GET: api/FormularioMascota
         [HttpGet]
         public ActionResult Get()
         {
@@ -32,7 +31,6 @@ namespace backend.Controllers
             }
         }
 
-        // GET api/FormularioMascota/{id_mascota}
         [HttpGet("{id_mascota}", Name = "GetMascota")]
         public ActionResult Get(int id_mascota)
         {
@@ -51,7 +49,6 @@ namespace backend.Controllers
             }
         }
 
-        // POST api/FormularioMascota
         [HttpPost]
         public ActionResult Post([FromBody] mascota mascota)
         {
@@ -62,11 +59,9 @@ namespace backend.Controllers
                     return BadRequest("El cuerpo de la solicitud está vacío.");
                 }
 
-                // Establecer valores predeterminados
                 mascota.estado = mascota.estado ?? "Inactivo";
                 mascota.ip = mascota.ip ?? "0.0.0.0";
 
-                // Asignar fechas
                 mascota.fecha_creacion = DateTime.UtcNow;
                 mascota.fecha_actualizacion = DateTime.UtcNow;
 
@@ -81,7 +76,6 @@ namespace backend.Controllers
             }
         }
 
-        // PUT api/FormularioMascota/{id_mascota}
         [HttpPut("{id_mascota}")]
         public ActionResult Put(int id_mascota, [FromBody] mascota mascota)
         {
@@ -92,7 +86,6 @@ namespace backend.Controllers
                     return BadRequest("El cuerpo de la solicitud no es válido.");
                 }
 
-                // Actualizar el estado de la mascota
                 context.Entry(mascota).State = EntityState.Modified;
                 context.SaveChanges();
 
@@ -104,7 +97,6 @@ namespace backend.Controllers
             }
         }
 
-        // DELETE api/FormularioMascota/{id_mascota}
         [HttpDelete("{id_mascota}")]
         public ActionResult Delete(int id_mascota)
         {

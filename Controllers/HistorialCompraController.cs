@@ -22,7 +22,6 @@ namespace backend.Controllers
         [HttpGet("usuario/{id_usuario}")]
         public async Task<ActionResult<IEnumerable<object>>> GetHistorialCompras(int id_usuario)
         {
-            // Obtener los historiales de compra para el usuario específico
             var historiales = await _context.historial_compra
                 .Where(h => h.id_usuario == id_usuario)
                 .Select(h => new
@@ -37,7 +36,7 @@ namespace backend.Controllers
                     h.ip,
                     DetalleCompra = h.detalle_compra.Select(dc => new
                     {
-                        dc.id_detalle_compra, // Incluye la clave
+                        dc.id_detalle_compra,
                         dc.cantidad,
                         dc.valor,
                         dc.total,
@@ -48,7 +47,7 @@ namespace backend.Controllers
                     }).ToList(),
                     DetalleServicio = h.detalle_servicio.Select(ds => new
                     {
-                        ds.id_detalle_servicio, // Incluye la clave
+                        ds.id_detalle_servicio, 
                         ds.valor,
                         ds.operacion,
                         ServicioNombre = _context.servicio
@@ -57,20 +56,18 @@ namespace backend.Controllers
                             .FirstOrDefault()
                     }).ToList()
                 })
-                .ToListAsync(); // Realiza la consulta antes de agrupar
+                .ToListAsync(); 
 
-            // Agrupar los historiales por id_historial_compra y consolidar datos
             var resultado = historiales
                 .GroupBy(h => h.id_historial_compra)
                 .Select(g => new
                 {
-                    Historial = g.First(), // Selecciona un historial para mostrar
+                    Historial = g.First(),
                     DetallesCompra = g.SelectMany(h => h.DetalleCompra).Distinct(),
                     DetallesServicio = g.SelectMany(h => h.DetalleServicio).Distinct()
                 })
                 .ToList();
 
-            // Limpiar el resultado para evitar referencias innecesarias
             var cleanedResult = resultado.Select(r => new
             {
                 r.Historial.id_historial_compra,
@@ -98,57 +95,46 @@ namespace backend.Controllers
                     return BadRequest(new { message = "El objeto historial es nulo." });
                 }
 
-                // Asignar la fecha actual si no se proporciona
                 if (historial.fecha == null)
                 {
-                    historial.fecha = DateTime.UtcNow; // Usa DateTime.Now si deseas la hora local
+                    historial.fecha = DateTime.UtcNow; 
                 }
 
-                // Guardar historial_compra primero
                 _context.historial_compra.Add(historial);
-                await _context.SaveChangesAsync(); // Guarda para obtener el ID
+                await _context.SaveChangesAsync();
 
-                // Guardar detalle_compra si existe
                 if (historial.detalle_compra != null && historial.detalle_compra.Any())
                 {
                     foreach (var detalle in historial.detalle_compra)
                     {
-                        // Asignamos la relación correcta
                         detalle.id_historial_compra = historial.id_historial_compra;
 
-                        // Comprobar si ya existe un registro igual en detalle_compra
                         var exists = await _context.detalle_compra
                             .AnyAsync(d => d.id_historial_compra == detalle.id_historial_compra && d.id_producto == detalle.id_producto);
 
                         if (!exists)
                         {
-                            // Asegúrate de que la propiedad id_detalle_compra no se esté modificando
                             _context.detalle_compra.Add(detalle);
                         }
                     }
                 }
 
-                // Guardar detalle_servicio si existe
                 if (historial.detalle_servicio != null && historial.detalle_servicio.Any())
                 {
                     foreach (var detalle in historial.detalle_servicio)
                     {
-                        // Asignamos la relación correcta
                         detalle.id_historial_compra = historial.id_historial_compra;
 
-                        // Comprobar si ya existe un registro igual en detalle_servicio
                         var exists = await _context.detalle_servicio
                             .AnyAsync(d => d.id_historial_compra == detalle.id_historial_compra && d.id_servicio == detalle.id_servicio);
 
                         if (!exists)
                         {
-                            // Asegúrate de que la propiedad id_detalle_servicio no se esté modificando
                             _context.detalle_servicio.Add(detalle);
                         }
                     }
                 }
 
-                // Guardar todos los cambios de detalle después de agregar todos los detalles.
                 await _context.SaveChangesAsync();
 
                 return CreatedAtAction(nameof(GetHistorialCompra), new { id_historial_compra = historial.id_historial_compra }, historial);
@@ -163,18 +149,6 @@ namespace backend.Controllers
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-        // GET: api/historialcompra/{id_historial_compra}
         [HttpGet("{id_historial_compra}")]
         public async Task<ActionResult<historial_compra>> GetHistorialCompra(int id_historial_compra)
         {
@@ -191,7 +165,6 @@ namespace backend.Controllers
             return historial;
         }
 
-        // PUT: api/historialcompra/{id_historial_compra}
         [HttpPut("{id_historial_compra}")]
         public async Task<IActionResult> PutHistorialCompra(int id_historial_compra, historial_compra historial)
         {
@@ -248,7 +221,6 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // DELETE: api/historialcompra/{id_historial_compra}
         [HttpDelete("{id_historial_compra}")]
         public async Task<IActionResult> DeleteHistorialCompra(int id_historial_compra)
         {

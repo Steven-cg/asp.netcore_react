@@ -20,7 +20,7 @@ namespace backend.Models
 
         public string? ip { get; set; }
 
-        public string? imagen { get; set; } // Nuevo campo para la imagen
+        public string? imagen { get; set; }
 
         public DateTime fecha_creacion { get; set; } = DateTime.Now;
 

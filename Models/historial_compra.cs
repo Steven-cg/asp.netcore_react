@@ -18,7 +18,6 @@ namespace backend.Models
         public DateTime? fecha_creacion { get; set; }
         public DateTime? fecha_actualizacion { get; set; }
 
-        // Inicialización de las colecciones
         public ICollection<detalle_compra> detalle_compra { get; set; }
         public ICollection<detalle_servicio> detalle_servicio { get; set; }
     }

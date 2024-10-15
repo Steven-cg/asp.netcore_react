@@ -20,14 +20,12 @@ namespace backend.Controllers
             _context = context;
         }
 
-        // GET: api/servicio
         [HttpGet]
         public async Task<ActionResult<IEnumerable<servicio>>> GetServicios()
         {
             return await _context.servicio.ToListAsync();
         }
 
-        // GET: api/servicio/{id_servicio}
         [HttpGet("{id_servicio}")]
         public async Task<ActionResult<servicio>> GetServicio(int id_servicio)
         {
@@ -41,7 +39,6 @@ namespace backend.Controllers
             return servicio;
         }
 
-        // POST: api/servicio
         [HttpPost]
         public async Task<ActionResult<servicio>> CreateServicio(servicio newServicio)
         {
@@ -54,7 +51,6 @@ namespace backend.Controllers
             return CreatedAtAction(nameof(GetServicio), new { id_servicio = newServicio.id_servicio }, newServicio);
         }
 
-        // PUT: api/servicio/{id_servicio}
         [HttpPut("{id_servicio}")]
         public async Task<IActionResult> UpdateServicio(int id_servicio, servicio updatedServicio)
         {
@@ -80,7 +76,6 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // DELETE: api/servicio/{id_servicio}
         [HttpDelete("{id_servicio}")]
         public async Task<IActionResult> DeleteServicio(int id_servicio)
         {

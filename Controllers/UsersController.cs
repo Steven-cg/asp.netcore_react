@@ -13,7 +13,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace backend.Controllers
 {
-    // Modelo para la entrada de inicio de sesión
     public class LoginModel
     {
         [Required]
@@ -38,7 +37,6 @@ namespace backend.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] usuario usuario)
         {
-            // Verifica si el usuario ya existe
             var existingUser = await _context.usuario
                 .FirstOrDefaultAsync(u => u.correo == usuario.correo);
             if (existingUser != null)
@@ -46,10 +44,8 @@ namespace backend.Controllers
                 return Conflict(new { message = "El correo ya está registrado." });
             }
 
-            // Hash de la contraseña
             usuario.contrasena = BCrypt.Net.BCrypt.HashPassword(usuario.contrasena);
 
-            // Agrega el nuevo usuario a la base de datos
             await _context.usuario.AddAsync(usuario);
             await _context.SaveChangesAsync();
 
@@ -72,7 +68,6 @@ namespace backend.Controllers
 
             var token = GenerateJwtToken(foundUser);
 
-            // Devuelve el token y el ID del usuario
             return Ok(new { token, userId = foundUser.id_usuario });
         }
 
@@ -89,22 +84,18 @@ namespace backend.Controllers
         [HttpPut("{id_usuario}")]
         public async Task<IActionResult> UpdateUser(int id_usuario, [FromBody] UpdateUsuarioDto updatedUsuario)
         {
-            // Busca el usuario existente
             var usuario = await _context.usuario.FindAsync(id_usuario);
             if (usuario == null) return NotFound();
 
-            // Actualiza solo los campos que no son requeridos
-            usuario.cedula = updatedUsuario.cedula ?? usuario.cedula; // Solo actualiza si no es nulo
-            usuario.nombre = updatedUsuario.nombre ?? usuario.nombre; // Solo actualiza si no es nulo
-            usuario.apellido = updatedUsuario.apellido ?? usuario.apellido; // Solo actualiza si no es nulo
-            usuario.estatura = updatedUsuario.estatura ?? usuario.estatura; // Solo actualiza si no es nulo
-            usuario.estado_civil = updatedUsuario.estado_civil ?? usuario.estado_civil; // Solo actualiza si no es nulo
-            usuario.fecha_nacimiento = updatedUsuario.fecha_nacimiento ?? usuario.fecha_nacimiento; // Solo actualiza si no es nulo
+            usuario.cedula = updatedUsuario.cedula ?? usuario.cedula; 
+            usuario.nombre = updatedUsuario.nombre ?? usuario.nombre; 
+            usuario.apellido = updatedUsuario.apellido ?? usuario.apellido; 
+            usuario.estatura = updatedUsuario.estatura ?? usuario.estatura; 
+            usuario.estado_civil = updatedUsuario.estado_civil ?? usuario.estado_civil; 
+            usuario.fecha_nacimiento = updatedUsuario.fecha_nacimiento ?? usuario.fecha_nacimiento; 
 
-            // Marca la entidad como modificada
             _context.Entry(usuario).State = EntityState.Modified;
 
-            // Guarda los cambios
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -139,7 +130,7 @@ namespace backend.Controllers
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, usuario.usuario_name), // Cambia a 'usuario_name'
+                new Claim(JwtRegisteredClaimNames.Sub, usuario.usuario_name), 
                 new Claim(JwtRegisteredClaimNames.Jti, usuario.id_usuario.ToString()),
             };
 

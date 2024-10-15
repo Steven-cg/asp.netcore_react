@@ -21,19 +21,19 @@ namespace backend.Models
         public string? correo { get; set; }
 
         [Required, MaxLength(50)]
-        public string? usuario_name { get; set; } // Agregado el campo usuario_name
+        public string? usuario_name { get; set; }
 
         [Required, DataType(DataType.Password), MaxLength(255)]
         public string? contrasena { get; set; }
 
         [Range(0.0, 999.99)]
-        public decimal? estatura { get; set; } // Cambiado a nullable para que sea opcional
+        public decimal? estatura { get; set; }
 
         [MaxLength(20)]
         public string? estado_civil { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime? fecha_nacimiento { get; set; } // Cambiado a nullable para que sea opcional
+        public DateTime? fecha_nacimiento { get; set; }
 
         [MaxLength(50)]
         public string? estado { get; set; }
