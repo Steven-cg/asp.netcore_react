@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../config/config';
 
-// Servicios de Persona
 export const getPersonas = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/api/formulario`);

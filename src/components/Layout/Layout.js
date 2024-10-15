@@ -1,18 +1,15 @@
-// src/components/Layout.js
-
 import React, { useState } from 'react';
 import { Layout, Menu, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import './Layout.css'; // Import the CSS file
+import './Layout.css'; 
 
 const { Header, Content } = Layout;
 
 const Layouts = ({ children }) => {
   const navigate = useNavigate();
-  const [menuVisible, setMenuVisible] = useState(false); // State to control menu visibility
+  const [menuVisible, setMenuVisible] = useState(false); 
 
-  // Define the menu items as an array
   const menuItems = [
     {
       key: '1',
@@ -51,13 +48,12 @@ const Layouts = ({ children }) => {
       label: 'Cerrar Sesión',
       onClick: () => {
         setMenuVisible(false);
-        localStorage.removeItem('token'); // Elimina el token
-        navigate('/'); // Redirige a la página de inicio
+        localStorage.removeItem('token'); 
+        navigate('/'); 
       },
     },
   ];
 
-  // Handle avatar click to toggle menu visibility
   const toggleMenu = () => {
     setMenuVisible((prev) => !prev);
   };
@@ -74,9 +70,9 @@ const Layouts = ({ children }) => {
           />
           {menuVisible && (
             <Menu
-              items={menuItems} // Use the items prop instead of children
+              items={menuItems} 
               className="menu"
-              selectable={false} // Prevent selection of menu items
+              selectable={false} 
             />
           )}
         </div>

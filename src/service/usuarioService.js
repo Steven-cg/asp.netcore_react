@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../config/config';
 
-// Interceptor to add JWT token to all requests
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {

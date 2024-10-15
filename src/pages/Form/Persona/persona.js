@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, Select, message, DatePicker } from 'antd';
 import { getUsuarioById, updateUsuario } from '../../../service/usuarioService'; 
-import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
 const { Option } = Select;
@@ -10,24 +9,20 @@ const PersonaForm = () => {
   const [formValues, setFormValues] = useState({
     nombre: '',
     apellido: '',
-    fecha_nacimiento: null, // Cambiado a null para manejarlo con DatePicker
+    fecha_nacimiento: null, 
     estatura: '',
     estado_civil: '',
   });
   const [editMode, setEditMode] = useState(false);
-  const navigate = useNavigate();
 
-  // Cargar datos del usuario al montar el componente
   useEffect(() => {
-    const userId = localStorage.getItem('userId'); // Obtener el ID del usuario del localStorage
+    const userId = localStorage.getItem('userId');
     if (userId) {
-      // Llamada al servicio para obtener los datos del usuario
       getUsuarioById(userId)
         .then((data) => {
           setFormValues({
             nombre: data.nombre || '',
             apellido: data.apellido || '',
-            // Se convierte la fecha a un objeto moment
             fecha_nacimiento: data.fecha_nacimiento ? moment(data.fecha_nacimiento) : null,
             estatura: data.estatura || '',
             estado_civil: data.estado_civil || '',
@@ -40,30 +35,26 @@ const PersonaForm = () => {
     }
   }, []);
 
-  // Manejar cambios en los inputs del formulario
   const handleChange = (e, key) => {
     setFormValues({ ...formValues, [key]: e.target ? e.target.value : e });
   };
 
-  // Manejar cambios en el Select
   const handleSelectChange = (value) => {
     setFormValues({ ...formValues, estado_civil: value });
   };
 
-  // Manejar cambios en la fecha
   const handleDateChange = (date, dateString) => {
     setFormValues({ ...formValues, fecha_nacimiento: date });
   };
 
-  // Guardar cambios del formulario
   const handleSave = () => {
-    const userId = localStorage.getItem('userId'); // Obtener el ID del usuario
+    const userId = localStorage.getItem('userId'); 
     
-    console.log("Datos enviados:", { userId, formValues }); // Log para verificar datos
+    console.log("Datos enviados:", { userId, formValues }); 
 
     updateUsuario(userId, {
       ...formValues,
-      fecha_nacimiento: formValues.fecha_nacimiento ? formValues.fecha_nacimiento.format('YYYY-MM-DD') : null // Formato a enviar
+      fecha_nacimiento: formValues.fecha_nacimiento ? formValues.fecha_nacimiento.format('YYYY-MM-DD') : null
     })
       .then(() => {
         message.success('Datos actualizados correctamente');
@@ -71,7 +62,7 @@ const PersonaForm = () => {
       })
       .catch((error) => {
         message.error('Error al actualizar los datos');
-        console.error("Error al actualizar usuario:", error); // Log del error para mejor depuración
+        console.error("Error al actualizar usuario:", error); 
       });
   };
 
@@ -98,7 +89,7 @@ const PersonaForm = () => {
       </Form.Item>
       <Form.Item label="Fecha de Nacimiento">
         <DatePicker
-          value={formValues.fecha_nacimiento} // Usar DatePicker aquí
+          value={formValues.fecha_nacimiento} 
           onChange={handleDateChange}
           disabled={!editMode}
         />

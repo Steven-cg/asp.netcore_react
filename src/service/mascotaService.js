@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../config/config';
 
-// Servicios de Mascota
 export const getMascotas = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/api/formularioMascota`);

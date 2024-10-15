@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Login from '../../pages/Login/Login';
 import Home from '../../pages/Store/Home';
-import FormsIndex from '../../pages/Form/index'; // Asegúrate de que el archivo sea Forms y no Form
+import FormsIndex from '../../pages/Form/index'; 
 import Registro from '../../pages/Form/Registro/Registro';
 import Factura from '../../pages/Store/Factura/Factura'; 
 import Cart from '../../pages/Store/Cart/Cart'; 

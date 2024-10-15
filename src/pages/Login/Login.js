@@ -19,9 +19,8 @@ const handleLogin = async (values) => {
     setLoading(true);
     const response = await loginUsuario({ usuario_name, contrasena: password });
 
-    // Almacenar el token y el ID del usuario en localStorage
     localStorage.setItem('token', response.token);
-    localStorage.setItem('userId', response.userId); // Asegúrate de que el backend devuelva el userId
+    localStorage.setItem('userId', response.userId); 
 
     message.success(SUCCESS_MESSAGE);
     setTimeout(() => {

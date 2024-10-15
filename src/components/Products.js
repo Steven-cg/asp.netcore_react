@@ -3,7 +3,6 @@ import { Card, Button, message } from 'antd';
 
 const Product = ({ product }) => {
   const [inCart, setInCart] = useState(() => {
-    // Check if the product is already in the cart
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     return cart.some((item) => item.id_producto === product.id_producto);
   });
@@ -12,23 +11,21 @@ const Product = ({ product }) => {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     if (inCart) {
-      // Remove from cart
       const updatedCart = cart.filter((item) => item.id_producto !== product.id_producto);
       localStorage.setItem('cart', JSON.stringify(updatedCart));
       message.success('Producto quitado del carrito');
     } else {
-      // Add to cart with initial quantity of 1
       const cartItem = {
         ...product,
-        cantidad: 1, // Initial quantity set to 1
-        maxQuantity: product.cantidad, // Set maxQuantity to available quantity
+        cantidad: 1, 
+        maxQuantity: product.cantidad,
       };
       cart.push(cartItem);
       localStorage.setItem('cart', JSON.stringify(cart));
       message.success('Producto añadido al carrito');
     }
 
-    setInCart(!inCart); // Toggle the cart state
+    setInCart(!inCart); 
   };
 
   const imageUrl = product.imagen
@@ -37,7 +34,7 @@ const Product = ({ product }) => {
 
   return (
     <Card
-      style={styles.card} // Use styles defined below
+      style={styles.card} 
       cover={<img alt={product.nombre} src={imageUrl} style={styles.image} />}
     >
       <Card.Meta title={product.nombre} description={`$${product.valor}`} />

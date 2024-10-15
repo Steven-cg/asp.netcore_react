@@ -12,14 +12,12 @@ const Cart = () => {
   const [subtotal, setSubtotal] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // Function to calculate service charges based on the total value
   const calculateServiceCharges = useCallback((totalValue) => {
     return services.reduce((acc, service) => {
       return service.otro === '+' ? acc + (totalValue * service.valor) : acc - (totalValue * service.valor);
     }, 0);
   }, [services]);
 
-  // Fetch services and cart from localStorage
   const fetchServices = useCallback(async () => {
     try {
       const servicesData = await getServicios();
@@ -33,7 +31,6 @@ const Cart = () => {
     }
   }, []);
 
-  // Calculate total and subtotal whenever cart changes
   const calculateTotal = useCallback((cartItems) => {
     const totalValue = cartItems.reduce((sum, item) => sum + (item.valor * item.cantidad), 0);
     const charges = calculateServiceCharges(totalValue);
@@ -48,9 +45,8 @@ const Cart = () => {
     setCart(storedCart);
     fetchServices();
     calculateTotal(storedCart);
-  }, [fetchServices, calculateTotal]); // Added dependencies here
+  }, [fetchServices, calculateTotal]); 
 
-  // Calculate total whenever the cart changes
   useEffect(() => {
     calculateTotal(cart);
   }, [cart, calculateTotal]);
@@ -77,7 +73,7 @@ const Cart = () => {
   const handleRemoveItem = (id) => {
     const updatedCart = cart.filter(item => item.id_producto !== id);
     updateCart(updatedCart);
-    message.success('Elemento eliminado del carrito'); // Message for item removal
+    message.success('Elemento eliminado del carrito'); 
   };
 
   const handlePurchase = async () => {
@@ -112,19 +108,18 @@ const Cart = () => {
       message.success('Compra realizada con éxito! Puede ver su historial en la sección de facturas.'); // Success message
     } catch (error) {
       console.error("Error saving purchase:", error.response ? error.response.data : error);
-      message.error('Error al realizar la compra.'); // Error message
+      message.error('Error al realizar la compra.'); 
     }
   };
 
   
   const showModal = () => {
-    // Verifica si el carrito está vacío
     if (cart.length === 0) {
       message.error('No puedes abrir el modal sin productos en el carrito.');
-      return; // Evita abrir el modal si no hay productos
+      return; 
     }
   
-    setIsModalVisible(true); // Abre el modal solo si hay productos
+    setIsModalVisible(true); 
   };
 
   const handleOk = async () => {

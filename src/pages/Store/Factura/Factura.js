@@ -1,9 +1,7 @@
-// src/page/Facturas/factura.js
-
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
-import { getHistorialCompras } from '../../../service/service'; // Ajusta la ruta según tu estructura de archivos
+import { getHistorialCompras } from '../../../service/service';
 
 const Factura = () => {
   const [facturas, setFacturas] = useState([]);
@@ -24,9 +22,6 @@ const Factura = () => {
   }, [userId]);
 
   const handleViewDetails = (factura) => {
-    console.log("factura", factura);
-
-    // Extraer los valores correctamente
     const detalleCompra = factura.detalleCompra.$values || [];
     const detalleServicio = factura.detalleServicio.$values || [];
 
@@ -39,10 +34,10 @@ const Factura = () => {
 };
 
 const formatDate = (fecha) => {
-    if (!fecha) return ''; // Manejar caso de fecha nula
+    if (!fecha) return ''; 
 
     const date = new Date(fecha);
-    return date.toISOString().split('T')[0]; // Extrae la parte de la fecha en formato AAAA-MM-DD
+    return date.toISOString().split('T')[0]; 
   };
 
   const columns = [
@@ -50,7 +45,7 @@ const formatDate = (fecha) => {
         title: 'Fecha',
         dataIndex: 'fecha',
         key: 'fecha',
-        render: (text) => formatDate(text), // Usar la función formatDate
+        render: (text) => formatDate(text), 
       },
     {
       title: 'Valor Pagado',

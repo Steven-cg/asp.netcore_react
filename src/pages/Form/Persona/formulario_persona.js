@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Form, Input, InputNumber, Button, DatePicker, Select, Space, message, Row, Col, Card } from 'antd';
-import { createUsuario, updateUsuario, getUsuarioById } from '../../../service/usuarioService'; // Asegúrate de que la ruta es correcta
+import { createUsuario, updateUsuario, getUsuarioById } from '../../../service/usuarioService';
 import dayjs from 'dayjs';
 
 const { Option } = Select;
@@ -10,13 +10,12 @@ const FormularioPersona = ({ personaId }) => {
 
   useEffect(() => {
     if (personaId) {
-      // Fetch user data for editing
       const fetchUsuario = async () => {
         try {
           const data = await getUsuarioById(personaId);
           form.setFieldsValue({
             ...data,
-            fecha_nacimiento: data.fecha_nacimiento ? dayjs(data.fecha_nacimiento) : null, // Parse date correctly
+            fecha_nacimiento: data.fecha_nacimiento ? dayjs(data.fecha_nacimiento) : null,  
           });
         } catch (error) {
           message.error('Error al cargar los datos del usuario');
@@ -30,22 +29,22 @@ const FormularioPersona = ({ personaId }) => {
 
   const handleSubmit = async (values) => {
     try {
-      values.estatura = parseFloat(values.estatura).toFixed(2); // Asegúrate de que estatura es decimal
+      values.estatura = parseFloat(values.estatura).toFixed(2); 
       if (values.fecha_nacimiento) {
-        values.fecha_nacimiento = values.fecha_nacimiento.format('YYYY-MM-DDTHH:mm:ssZ'); // Formatear fecha
+        values.fecha_nacimiento = values.fecha_nacimiento.format('YYYY-MM-DDTHH:mm:ssZ'); 
       }
 
       if (personaId) {
-        await updateUsuario(personaId, values); // Usar updateUsuario
+        await updateUsuario(personaId, values); 
         message.success('Usuario actualizado con éxito');
       } else {
-        await createUsuario(values); // Usar createUsuario
+        await createUsuario(values);  
         message.success('Usuario registrado con éxito');
       }
-      form.resetFields(); // Limpiar el formulario después de guardar
+      form.resetFields(); 
     } catch (error) {
       message.error('Error al guardar el usuario');
-      console.error('Error de guardado:', error); // Mejora del registro de errores
+      console.error('Error de guardado:', error);
     }
   };
 
@@ -96,7 +95,7 @@ const FormularioPersona = ({ personaId }) => {
 
             <Form.Item
               label="Nombre de Usuario"
-              name="usuario_name" // Cambia esto a 'usuario_name' si así está en tu modelo
+              name="usuario_name"
               rules={[{ required: true, message: 'Por favor ingrese el nombre de usuario' }]}
             >
               <Input />
@@ -128,7 +127,7 @@ const FormularioPersona = ({ personaId }) => {
 
             <Form.Item
               label="Estado Civil"
-              name="estado_civil" // Asegúrate que el nombre sea exactamente igual al modelo
+              name="estado_civil"
               rules={[{ required: true, message: 'Por favor seleccione el estado civil' }]}
             >
               <Select placeholder="Selecciona el estado civil">
